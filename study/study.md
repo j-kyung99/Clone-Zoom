@@ -14,3 +14,7 @@
 ### ws
 
     express는 ws를 지원하지 않음(function을 추가해야 됨)
+
+### socket
+
+    서버와 브라우저 사이의 연결을 의미
