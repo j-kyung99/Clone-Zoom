@@ -18,3 +18,8 @@
 ### socket
 
     서버와 브라우저 사이의 연결을 의미
+
+### JSON
+
+    - JSON.stringify : JS object를 string으로 바꿔줌
+    - JSON.parse : string을 JS object로 바꿔줌
