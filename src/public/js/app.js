@@ -16,3 +16,5 @@ socket.addEventListener("close", () => {
 setTimeout(() => {
   socket.send("hello from the browser!");
 }, 10000);
+
+// 여긴 frontend!!
