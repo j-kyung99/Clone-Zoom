@@ -3,14 +3,17 @@ const socket = io(); // socketIO를 front-end와 연결
 const welcome = document.getElementById("welcome");
 const form = welcome.querySelector("form");
 
+function backendDone(msg) {
+  console.log(`The backend says: `, msg);
+}
+
 function handleRoomSubmit(event) {
   event.preventDefault();
   const input = form.querySelector("input");
-  socket.emit("enter_room", { payload: input.value }, () => {
-    console.log("server is done!");
-  });
+  socket.emit("enter_room", input.value, backendDone);
+  // argument의 개수는 원하는 만큼 가능, 어떠한 것이든 상관 없음
   // 특정한 event를 emit (어떤 이름이든 상관 X), JS 오브젝트를 전송할 수 있음
-  // 세번째 argument에는 서버에서 호출하는 function이 들어감
+  // 마지막 argument에는 서버에서 호출하는 function이 들어감(원할때만, 항상 넣어야되는건 X)
   input.value = "";
 }
 

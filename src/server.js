@@ -16,11 +16,11 @@ const httpServer = http.createServer(app); // server에 접근할 수 있음(htt
 const wsServer = SocketIO(httpServer);
 
 wsServer.on("connection", (socket) => {
-  socket.on("enter_room", (msg, done) => {
-    console.log(msg);
+  socket.on("enter_room", (roomName, done) => {
+    console.log(roomName);
     setTimeout(() => {
-      done();
-    }, 10000);
+      done("hello from the backend");
+    }, 10000); // done function을 실행하면 back-end에서 코드를 실행시키는 것이 아님(front-end에서 실행 버튼을 눌러줌)
   });
 }); // socketIO를 back-end와 연결
 
