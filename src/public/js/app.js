@@ -1,4 +1,6 @@
-const messageList = document.querySelector("ul");
+const socket = io(); // socketIO를 front-end와 연결
+
+/* const messageList = document.querySelector("ul");
 const nickForm = document.querySelector("#nick");
 const messageForm = document.querySelector("#message");
 
@@ -42,3 +44,4 @@ function handleNickSubmit(event) {
 
 messageForm.addEventListener("submit", handleSubmit);
 nickForm.addEventListener("submit", handleNickSubmit);
+websocket을 이용하여 만든 부분 */

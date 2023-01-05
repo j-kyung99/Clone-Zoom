@@ -1,5 +1,5 @@
 import http from "http";
-import WebSocket from "ws";
+import SocketIO from "socket.io";
 import express from "express";
 
 const app = express(); // 애플리케이션 생성
@@ -12,15 +12,21 @@ app.get("/*", (req, res) => res.redirect("/")); // 유저가 어떤 url로 이�
 const handleListen = () => console.log("Listening on http://localhost:3000");
 //  app.listen(3000, handleListen); // 3000포트로 접속 성공 시 ~
 
-const server = http.createServer(app); // server에 접근할 수 있음(http 서버)
+const httpServer = http.createServer(app); // server에 접근할 수 있음(http 서버)
+const wsServer = SocketIO(httpServer);
+
+wsServer.on("connection", (socket) => {
+  console.log(socket);
+}); // socketIO를 back-end와 연결
+
+/* function handleConnection(socket) {
+  console.log(socket);
+  // 여기에서의 socket은 연결된 브라우저를 의미
+} */
+
+/* 
 const wss = new WebSocket.Server({ server }); // http 서버 위에 webSocket 서버를 만들 수 있도록 함
-
-// function handleConnection(socket) {
-//   console.log(socket);
-//   // 여기에서의 socket은 연결된 브라우저를 의미
-// }
 const sockets = [];
-
 wss.on("connection", (socket) => {
   sockets.push(socket);
   socket["nickname"] = "Anon";
@@ -39,8 +45,8 @@ wss.on("connection", (socket) => {
         break;
     }
   });
-});
+}); */
 
-server.listen(3000, handleListen);
+httpServer.listen(3000, handleListen);
 
 // 여긴 backend!
