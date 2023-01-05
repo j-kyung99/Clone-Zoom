@@ -23,3 +23,7 @@
 
     - JSON.stringify : JS object를 string으로 바꿔줌
     - JSON.parse : string을 JS object로 바꿔줌
+
+### Socket IO
+
+    프론트와 백엔드 간 실시간 통신을 가능하게 해주는 프레임워크 또는 라이브러리
