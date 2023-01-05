@@ -16,7 +16,12 @@ const httpServer = http.createServer(app); // server에 접근할 수 있음(htt
 const wsServer = SocketIO(httpServer);
 
 wsServer.on("connection", (socket) => {
-  console.log(socket);
+  socket.on("enter_room", (msg, done) => {
+    console.log(msg);
+    setTimeout(() => {
+      done();
+    }, 10000);
+  });
 }); // socketIO를 back-end와 연결
 
 /* function handleConnection(socket) {

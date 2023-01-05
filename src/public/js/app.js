@@ -1,5 +1,21 @@
 const socket = io(); // socketIO를 front-end와 연결
 
+const welcome = document.getElementById("welcome");
+const form = welcome.querySelector("form");
+
+function handleRoomSubmit(event) {
+  event.preventDefault();
+  const input = form.querySelector("input");
+  socket.emit("enter_room", { payload: input.value }, () => {
+    console.log("server is done!");
+  });
+  // 특정한 event를 emit (어떤 이름이든 상관 X), JS 오브젝트를 전송할 수 있음
+  // 세번째 argument에는 서버에서 호출하는 function이 들어감
+  input.value = "";
+}
+
+form.addEventListener("submit", handleRoomSubmit);
+
 /* const messageList = document.querySelector("ul");
 const nickForm = document.querySelector("#nick");
 const messageForm = document.querySelector("#message");
