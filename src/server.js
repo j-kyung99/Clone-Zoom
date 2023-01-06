@@ -17,10 +17,11 @@ const wsServer = SocketIO(httpServer);
 
 wsServer.on("connection", (socket) => {
   socket.on("enter_room", (roomName, done) => {
-    console.log(roomName);
-    setTimeout(() => {
+    socket.join(roomName);
+    done();
+    /* setTimeout(() => {
       done("hello from the backend");
-    }, 10000); // done function을 실행하면 back-end에서 코드를 실행시키는 것이 아님(front-end에서 실행 버튼을 눌러줌)
+    }, 10000); // done function을 실행하면 back-end에서 코드를 실행시키는 것이 아님(front-end에서 실행 버튼을 눌러줌) */
   });
 }); // socketIO를 back-end와 연결
 
