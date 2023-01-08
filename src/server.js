@@ -71,5 +71,3 @@ wss.on("connection", (socket) => {
 }); */
 
 httpServer.listen(3000, handleListen);
-
-// 여긴 backend!

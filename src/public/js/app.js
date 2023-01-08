@@ -91,8 +91,6 @@ socket.addEventListener("close", () => {
   console.log("Disconnected from Server ❌");
 }); // 서버로 부터 연결이 끊겨을 때 발생
 
-// 여긴 frontend!!
-
 function handleSubmit(event) {
   event.preventDefault();
   const input = messageForm.querySelector("input");
