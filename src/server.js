@@ -20,10 +20,14 @@ wsServer.on("connection", (socket) => {
   socket.onAny((event) => {
     console.log(`Socket Event: ${event}`);
   });
-  socket.on("enter_room", (roomName, done) => {
+  socket.on("enter_room", (roomName, nickname, done) => {
+    socket["nickname"] = nickname;
+    if (nickname === "") {
+      socket["nickname"] = "Anon";
+    }
     socket.join(roomName);
-    done();
     socket.to(roomName).emit("welcome", socket.nickname);
+    done();
     /* setTimeout(() => {
       done("hello from the backend");
     }, 10000); // done function을 실행하면 back-end에서 코드를 실행시키는 것이 아님(front-end에서 실행 버튼을 눌러줌) */

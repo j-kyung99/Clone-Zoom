@@ -1,12 +1,12 @@
 const socket = io(); // socketIO를 front-end와 연결
 
 const welcome = document.getElementById("welcome");
-const form = welcome.querySelector("form");
 const room = document.getElementById("room");
+const entrance = document.getElementById("entrance");
 
 room.hidden = true;
 
-let roomName;
+let roomName, nickName;
 
 function addMessage(message) {
   const ul = room.querySelector("ul");
@@ -27,33 +27,36 @@ function handleMessageSubmit(event) {
 
 function handleNicknameSubmit(event) {
   event.preventDefault();
-  const input = room.querySelector("#name input");
+  const input = welcome.querySelector("#name input");
   socket.emit("nickname", input.value);
 }
 
 function showRoom() {
-  welcome.hidden = true;
+  entrance.hidden = true;
   room.hidden = false;
   const h3 = room.querySelector("h3");
   h3.innerText = `Room ${roomName}`;
   const msgForm = room.querySelector("#msg");
-  const nameForm = room.querySelector("#name");
+  const nameForm = welcome.querySelector("#name");
   msgForm.addEventListener("submit", handleMessageSubmit);
   nameForm.addEventListener("submit", handleNicknameSubmit);
 }
 
 function handleRoomSubmit(event) {
   event.preventDefault();
-  const input = form.querySelector("input");
-  socket.emit("enter_room", input.value, showRoom);
+  const roomInput = entrance.querySelector("input");
+  const nickInput = welcome.querySelector("#name input");
+  socket.emit("enter_room", roomInput.value, nickInput.value, showRoom);
   // argument의 개수는 원하는 만큼 가능, 어떠한 것이든 상관 없음
   // 특정한 event를 emit (어떤 이름이든 상관 X), JS 오브젝트를 전송할 수 있음
   // 마지막 argument에는 서버에서 호출하는 function이 들어감(원할때만, 항상 넣어야되는건 X)
-  roomName = input.value;
-  input.value = "";
+  roomName = roomInput.value;
+  nickName = nickInput.value;
+  roomInput.value = "";
+  nickInput.value = "";
 }
 
-form.addEventListener("submit", handleRoomSubmit);
+entrance.addEventListener("submit", handleRoomSubmit);
 
 socket.on("welcome", (user) => {
   addMessage(`${user} arrived!`);
