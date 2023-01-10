@@ -15,6 +15,21 @@ const handleListen = () => console.log("Listening on http://localhost:3000");
 const httpServer = http.createServer(app); // server에 접근할 수 있음(http 서버)
 const wsServer = SocketIO(httpServer);
 
+function publicRooms() {
+  const {
+    sockets: {
+      adpater: { sids, rooms },
+    },
+  } = wsServer;
+  const publicRooms = [];
+  rooms.forEach((_, key) => {
+    if (sids.get(key) === undefined) {
+      publicRooms.push(key);
+    }
+  });
+  return publicRooms;
+}
+
 wsServer.on("connection", (socket) => {
   socket["nickname"] = "Anon";
   socket.onAny((event) => {
