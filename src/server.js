@@ -30,6 +30,10 @@ function publicRooms() {
   return publicRooms;
 }
 
+function countRoom(roomName) {
+  return wsServer.sockets.adapter.rooms.get(roomName)?.size;
+}
+
 wsServer.on("connection", (socket) => {
   socket["nickname"] = "Anon";
   socket.onAny((event) => {
@@ -41,16 +45,16 @@ wsServer.on("connection", (socket) => {
       socket["nickname"] = "Anon";
     }
     socket.join(roomName);
-    socket.to(roomName).emit("welcome", socket.nickname);
+    socket.to(roomName).emit("welcome", socket.nickname, countRoom(roomName));
     wsServer.sockets.emit("room_change", publicRooms());
-    done();
+    done(countRoom(roomName));
     /* setTimeout(() => {
       done("hello from the backend");
     }, 10000); // done function을 실행하면 back-end에서 코드를 실행시키는 것이 아님(front-end에서 실행 버튼을 눌러줌) */
   });
   socket.on("disconnecting", () => {
     socket.rooms.forEach((room) =>
-      socket.to(room).emit("bye", socket.nickname)
+      socket.to(room).emit("bye", socket.nickname, countRoom(room) - 1)
     );
   });
   socket.on("disconnect", () => {
