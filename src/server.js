@@ -1,5 +1,6 @@
 import http from "http";
-import SocketIO from "socket.io";
+import { Server } from "socket.io";
+import { instrument } from "@socket.io/admin-ui";
 import express from "express";
 
 const app = express(); // 애플리케이션 생성
@@ -13,7 +14,15 @@ const handleListen = () => console.log("Listening on http://localhost:3000");
 //  app.listen(3000, handleListen); // 3000포트로 접속 성공 시 ~
 
 const httpServer = http.createServer(app); // server에 접근할 수 있음(http 서버)
-const wsServer = SocketIO(httpServer);
+const wsServer = new Server(httpServer, {
+  cors: {
+    origin: ["https://admin.socket.io"],
+    credentials: true,
+  },
+});
+instrument(wsServer, {
+  auth: false,
+});
 
 function publicRooms() {
   const {
